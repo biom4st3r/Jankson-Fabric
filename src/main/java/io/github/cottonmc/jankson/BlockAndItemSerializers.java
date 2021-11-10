@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
@@ -129,7 +130,7 @@ public class BlockAndItemSerializers {
 	}
 	
 	public static <T extends Comparable<T>> BlockState withProperty(BlockState state, Property<T> property, String stringValue) {
-		Optional<T> val = property.getValue(stringValue);
+		Optional<T> val = property.parse(stringValue);
 		if (val.isPresent()) {
 			return state.with(property, val.get());
 		} else {
@@ -138,10 +139,10 @@ public class BlockAndItemSerializers {
 	}
 	
 	public static <T extends Comparable<T>> String getProperty(BlockState state, Property<T> property) {
-		return property.getName(state.get(property));
+		return property.name(state.get(property));
 	}
 	
 	public static Biome getBiome(String s, Marshaller m) {
-		return Registry.BIOME.get(new Identifier(s));
+		return BuiltinRegistries.BIOME.get(new Identifier(s));
 	}
 }

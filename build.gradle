@@ -10,15 +10,15 @@ buildscript {
 }
 
 plugins {
-	id 'fabric-loom' version '0.2.5-SNAPSHOT'
+	id 'fabric-loom' version '0.10-SNAPSHOT'
 	id 'maven-publish'
 	id "com.jfrog.artifactory" version "4.9.0"
 }
 
 apply plugin: "com.github.johnrengelman.shadow"
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 
 if(rootProject.file('private.gradle').exists()) { //Publishing details
 	apply from: 'private.gradle'
@@ -34,17 +34,17 @@ minecraft {
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
-	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	
-	shadow "blue.endless:jankson:1.2.0"
+	shadow "blue.endless:jankson:1.2.1"
 }
 
-task jar(type: Jar, overwrite: true) {
-	classifier = "compile"
-	from compileJava
-	from processResources
-}
+// task jar(type: Jar, overwrite: true) {
+// 	classifier = "compile"
+// 	from compileJava
+// 	from processResources
+// }
 
 shadowJar {
 	classifier = "shadow"
